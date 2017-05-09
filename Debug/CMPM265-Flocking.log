@@ -1,3 +1,8 @@
-﻿  main.cpp
+﻿  Vehicle.cpp
+d:\_repos\cmpm265\cmpm265-flocking\src\vehicle.cpp(10): warning C4305: '=': truncation from 'double' to 'float'
+d:\_repos\cmpm265\cmpm265-flocking\src\vehicle.cpp(14): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\vehicle.cpp(15): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  NewVector.cpp
+  Generating Code...
   CMPM265-Flocking.vcxproj -> D:\_repos\CMPM265\CMPM265-Flocking\Debug\CMPM265-Flocking.exe
   CMPM265-Flocking.vcxproj -> D:\_repos\CMPM265\CMPM265-Flocking\Debug\CMPM265-Flocking.pdb (Full PDB)

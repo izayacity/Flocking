@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\NewVector.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
     <ClCompile Include="src\VehicleSystem.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <Font Include="static\font\HelveticaNeue Light.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\NewVector.h" />
     <ClInclude Include="include\Vehicle.h" />
     <ClInclude Include="include\VehicleSystem.h" />
   </ItemGroup>

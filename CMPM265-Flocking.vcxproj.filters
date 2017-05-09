@@ -24,6 +24,9 @@
     <ClCompile Include="src\VehicleSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\NewVector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Font Include="static\font\HelveticaNeue Light.ttf">
@@ -35,6 +38,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\VehicleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NewVector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
