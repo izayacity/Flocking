@@ -15,6 +15,9 @@ public:
 	Vehicle (sf::Vector2f loc);
 	void update ();
 	void applyForce (sf::Vector2f force);
-	void seek (sf::Vector2f target);
+	void arrive (sf::Vector2f target);
 	virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::Vector2f getPosition ();
+	sf::Vector2f getVelocity ();
+	float getMaxSpeed ();
 };

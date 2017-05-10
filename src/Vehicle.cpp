@@ -6,7 +6,7 @@ Vehicle::Vehicle (sf::Vector2f loc) {
 	mVelocity = sf::Vector2f (0.0, -2.0);
 	mLocation = loc;
 	radius = 10;
-	mMaxSpeed = 4.0;
+	mMaxSpeed = 1.0;
 	mMaxForce = 0.1;
 
 	triangle.setPointCount (3);
@@ -27,6 +27,20 @@ void Vehicle::update () {
 	mLocation += mVelocity;
 	// Reset accelerationelertion to 0 each cycle
 	mAcceleration = sf::Vector2f (0, 0);
+	// Important to render the transform location
+	triangle.setPosition (mLocation);
+}
+
+sf::Vector2f Vehicle::getPosition () {
+	return mLocation;
+}
+
+sf::Vector2f Vehicle::getVelocity () {
+	return mVelocity;
+}
+
+float Vehicle::getMaxSpeed () {
+	return mMaxForce;
 }
 
 void Vehicle::applyForce (sf::Vector2f force) {
@@ -36,17 +50,22 @@ void Vehicle::applyForce (sf::Vector2f force) {
 
 // A method that calculates a steering force towards a target
 // STEER = DESIRED MINUS VELOCITY
-void Vehicle::seek (sf::Vector2f target) {
+void Vehicle::arrive (sf::Vector2f target) {
 	sf::Vector2f desired = target - mLocation;  // A vector pointing from the location to the target
-										 // Scale to maximum speed
-										 // set mag are these 2 functions combined into 1 function
-	NewVector::getInstance ().norm (desired);
-	desired *= mMaxSpeed;
+	float distanceX = NewVector::getInstance ().mag (desired);
+	desired = NewVector::getInstance ().norm (desired);
+
+	// Scale with arbitrary damping within 100 pixels
+	if (distanceX < 100.0) {
+		desired *= NewVector::getInstance ().lmap (distanceX, sf::Vector2f (0, 0), sf::Vector2f (100.f, mMaxSpeed));
+	} else {
+		desired *= mMaxSpeed;
+	}
 
 	// Steering = Desired minus velocity
 	sf::Vector2f steer = desired - mVelocity;
 	NewVector::getInstance ().limit (steer, mMaxForce);  // Limit to maximum steering force
-	
+
 	applyForce (steer);
 }
 

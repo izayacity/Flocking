@@ -13,3 +13,7 @@ void NewVector::limit (sf::Vector2f &vec, float limit) {
 		vec = norm (vec) * limit;
 	}
 }
+
+float NewVector::lmap (float val, sf::Vector2f min, sf::Vector2f max) {
+	return min.y + ((max.y - min.y) * (val - min.x)) / (max.x - min.x);
+}
