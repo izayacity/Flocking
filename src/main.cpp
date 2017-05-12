@@ -26,11 +26,7 @@ int main () {
 			}
 
 			else if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::P)) {
-				std::cout << "Mouse Loc: " << mouse.x << ", " << mouse.y << std::endl;
-				std::cout << "Vehicle Loc: " << mVehicle->getPosition ().x << ", " << mVehicle->getPosition ().y << std::endl;				
-				std::cout << "Vehicle Velocity: " << NewVector::getInstance ().mag (mVehicle->getVelocity ()) << std::endl;
-				std::cout << "Max Speed: " << mVehicle->getMaxSpeed () << std::endl;
-				std::cout << std::endl;
+				//std::cout << std::endl;
 			}
 		}				
 

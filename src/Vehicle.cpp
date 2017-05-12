@@ -3,8 +3,9 @@
 
 Vehicle::Vehicle (sf::Vector2f loc) {
 	mAcceleration = sf::Vector2f (0.0, 0.0);
-	mVelocity = sf::Vector2f (0.0, -2.0);
+	mVelocity = sf::Vector2f (0.0, 0.0);
 	mLocation = loc;
+	mRotation = 0.f;
 	radius = 10;
 	mMaxSpeed = 1.0;
 	mMaxForce = 0.1;
@@ -16,6 +17,7 @@ Vehicle::Vehicle (sf::Vector2f loc) {
 	triangle.setFillColor (sf::Color::Green);
 	triangle.setOrigin (radius, radius);
 	triangle.setPosition (mLocation);
+	triangle.setRotation (mRotation);
 }
 
 // Method to update location
@@ -27,8 +29,13 @@ void Vehicle::update () {
 	mLocation += mVelocity;
 	// Reset accelerationelertion to 0 each cycle
 	mAcceleration = sf::Vector2f (0, 0);
-	// Important to render the transform location
+	// Important to render the transform location and rotation
 	triangle.setPosition (mLocation);
+	triangle.setRotation (mRotation);
+}
+
+float Vehicle::getRotation () {
+	return triangle.getRotation ();
 }
 
 sf::Vector2f Vehicle::getPosition () {
@@ -50,6 +57,7 @@ void Vehicle::applyForce (sf::Vector2f force) {
 
 // A method that calculates a steering force towards a target
 // STEER = DESIRED MINUS VELOCITY
+// set desired velocity angle as rotation
 void Vehicle::arrive (sf::Vector2f target) {
 	sf::Vector2f desired = target - mLocation;  // A vector pointing from the location to the target
 	float distanceX = NewVector::getInstance ().mag (desired);
@@ -61,6 +69,8 @@ void Vehicle::arrive (sf::Vector2f target) {
 	} else {
 		desired *= mMaxSpeed;
 	}
+	// set desired velocity angle as rotation
+	mRotation = NewVector::getInstance ().rotation (desired);
 
 	// Steering = Desired minus velocity
 	sf::Vector2f steer = desired - mVelocity;

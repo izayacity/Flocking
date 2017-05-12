@@ -11,6 +11,10 @@ public:
 		return instance;
 	}
 
+	const float PI = 3.14;
+	std::map <float, float> sin_table;
+	std::map <float, float> cos_table;
+
 	NewVector (NewVector const&) = delete;
 	void operator=(NewVector const&) = delete;
 
@@ -18,4 +22,5 @@ public:
 	sf::Vector2f norm (sf::Vector2f vec);
 	void limit (sf::Vector2f &vec, float limit);
 	float lmap (float val, sf::Vector2f min, sf::Vector2f max);
+	float rotation (sf::Vector2f vec);
 };

@@ -7,7 +7,8 @@ private:
 	sf::Vector2f mLocation;
 	sf::Vector2f mVelocity;
 	sf::Vector2f mAcceleration;
-	float radius;            // Additional variable for size
+	float mRotation;
+	float radius;       // Additional variable for size
 	float mMaxForce;    // Maximum steering force
 	float mMaxSpeed;    // Maximum speed
 
@@ -20,4 +21,5 @@ public:
 	sf::Vector2f getPosition ();
 	sf::Vector2f getVelocity ();
 	float getMaxSpeed ();
+	float getRotation ();
 };
