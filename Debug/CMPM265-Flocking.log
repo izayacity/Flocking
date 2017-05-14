@@ -1,5 +1,7 @@
-﻿  NewVector.cpp
+﻿  main.cpp
 d:\_repos\cmpm265\cmpm265-flocking\include\newvector.h(14): warning C4305: 'initializing': truncation from 'double' to 'const float'
-d:\_repos\cmpm265\cmpm265-flocking\src\newvector.cpp(36): warning C4715: 'NewVector::rotation': not all control paths return a value
+d:\_repos\cmpm265\cmpm265-flocking\src\main.cpp(54): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Flock.cpp
+  Generating Code...
   CMPM265-Flocking.vcxproj -> D:\_repos\CMPM265\CMPM265-Flocking\Debug\CMPM265-Flocking.exe
   CMPM265-Flocking.vcxproj -> D:\_repos\CMPM265\CMPM265-Flocking\Debug\CMPM265-Flocking.pdb (Full PDB)

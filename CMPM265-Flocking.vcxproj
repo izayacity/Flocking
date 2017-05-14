@@ -150,16 +150,16 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\NewVector.cpp" />
-    <ClCompile Include="src\Vehicle.cpp" />
-    <ClCompile Include="src\VehicleSystem.cpp" />
+    <ClCompile Include="src\Boid.cpp" />
+    <ClCompile Include="src\Flock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="static\font\HelveticaNeue Light.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NewVector.h" />
-    <ClInclude Include="include\Vehicle.h" />
-    <ClInclude Include="include\VehicleSystem.h" />
+    <ClInclude Include="include\Boid.h" />
+    <ClInclude Include="include\Flock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

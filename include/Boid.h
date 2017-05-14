@@ -1,0 +1,27 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+
+class Boid : public sf::Drawable, public sf::Transformable {
+private:
+	sf::ConvexShape triangle;
+	sf::Vector2f mLocation;
+	sf::Vector2f mVelocity;
+	sf::Vector2f mAcceleration;
+	float radius;       // Additional variable for size
+	float mMaxForce;    // Maximum steering force
+	float mMaxSpeed;    // Maximum speed
+	float mBoundaryWidth;
+	const int gameWidth = 800;
+	const int gameHeight = 600;
+public:
+	Boid (sf::Vector2f loc);
+	void update ();
+	void applyForce (sf::Vector2f force);
+	void arrive (sf::Vector2f target);
+	virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::Vector2f getPosition ();
+	sf::Vector2f getVelocity ();
+	float getMaxSpeed ();
+	void setSpeed (float speed);
+	void boundaries ();
+};
