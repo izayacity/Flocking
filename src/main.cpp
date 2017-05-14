@@ -46,6 +46,8 @@ int main () {
 			if ((event.type == sf::Event::KeyPressed)) {
 				if (event.key.code == sf::Keyboard::Escape) {
 					window.close ();
+				} else if (event.key.code == sf::Keyboard::Down) {
+					boids.reduceBoid ();
 				}
 			}
 			

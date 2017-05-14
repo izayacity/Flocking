@@ -1,7 +1,7 @@
 #include "../include/Flock.h"
 
 Flock::Flock () {
-
+	mCount = 0;
 }
 
 Flock::~Flock () {
@@ -17,6 +17,20 @@ void Flock::update () {
 void Flock::addBoid (sf::Vector2f loc) {
 	Boid *mBoid = new Boid (loc);
 	mBoids.push_back (mBoid);
+	mCount++;
+}
+
+void Flock::reduceBoid () {
+	if (mCount <= 0) {
+		return;
+	} else if (mCount == 1) {
+		mBoids.pop_back ();
+		mCount--;
+	} else {
+		for (int target = mCount / 2; mCount > target; mCount--) {
+			mBoids.pop_back ();
+		}
+	}
 }
 
 // Apply the transform and draw the vertext array
