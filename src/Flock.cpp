@@ -10,8 +10,12 @@ Flock::~Flock () {
 
 void Flock::update () {
 	for (Boid *b : mBoids) {
-		b->update ();
+		b->run (&mBoids);
 	}
+}
+
+int Flock::getCount () {
+	return mCount;
 }
 
 void Flock::addBoid (sf::Vector2f loc) {
@@ -26,6 +30,7 @@ void Flock::reduceBoid () {
 	} else if (mCount == 1) {
 		mBoids.pop_back ();
 		mCount--;
+		return;
 	} else {
 		for (int target = mCount / 2; mCount > target; mCount--) {
 			mBoids.pop_back ();

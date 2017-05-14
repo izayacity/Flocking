@@ -17,11 +17,16 @@ public:
 	Boid (sf::Vector2f loc);
 	void update ();
 	void applyForce (sf::Vector2f force);
-	void arrive (sf::Vector2f target);
+	sf::Vector2f arrive (sf::Vector2f target);
 	virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Vector2f getPosition ();
-	sf::Vector2f getVelocity ();
+	sf::Vector2f getVelocity ();	
 	float getMaxSpeed ();
 	void setSpeed (float speed);
 	void boundaries ();
+	void run (std::vector<Boid*>* const boids);
+	void flock (std::vector<Boid*>* const boids);
+	sf::Vector2f separate (std::vector<Boid*>* const boids);
+	sf::Vector2f align (std::vector<Boid*>* const boids);
+	sf::Vector2f cohesion (std::vector<Boid*>* const boids);
 };

@@ -8,6 +8,7 @@ class Flock : public sf::Drawable, public sf::Transformable {
 public:
 	Flock ();
 	~Flock ();
+	int getCount ();
 	void update ();
 	void addBoid (sf::Vector2f loc);
 	void reduceBoid ();

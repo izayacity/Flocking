@@ -21,16 +21,15 @@ int main () {
 	// draw the background of text field on the top
 	sf::RectangleShape textField;
 	textField.setFillColor (sf::Color::Black);
-	textField.setSize (sf::Vector2f (100.f, 30.f));
-	textField.setPosition (gameWidth - 100, 0);
+	textField.setSize (sf::Vector2f (gameWidth, 30.f));
+	textField.setPosition (0, 0);
 
 	// display the text
-	sf::Text fpsText;
-	fpsText.setFont (fontHNL);
-	fpsText.setCharacterSize (20);
-	fpsText.setFillColor (sf::Color::Green);
-	fpsText.setString ("fps: ");
-	fpsText.setPosition (gameWidth - 100, 5);
+	sf::Text statsText;
+	statsText.setFont (fontHNL);
+	statsText.setCharacterSize (20);
+	statsText.setFillColor (sf::Color::Green);
+	statsText.setPosition (5, 5);
 
 	Flock boids;
 
@@ -59,12 +58,13 @@ int main () {
 		}
 
 		boids.update ();
-		fpsText.setString ("fps: " + std::to_string (static_cast<int>(1.f / clock.restart ().asSeconds ())));
+		statsText.setString ("fps: " + std::to_string (static_cast<int>(1.f / clock.restart ().asSeconds ()))
+		+ " amount: " + std::to_string (boids.getCount ()));
 
 		window.clear ();
 		window.draw (boids);
 		window.draw (textField);
-		window.draw (fpsText);
+		window.draw (statsText);
 		window.display ();
 	}
 
