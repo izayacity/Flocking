@@ -9,6 +9,9 @@ Boid::Boid (sf::Vector2f loc) {
 	mMaxSpeed = 1.0;
 	mMaxForce = 0.1;
 	mBoundaryWidth = 25.0;
+	weight[0] = 1.5f;
+	weight[1] = 1.f;
+	weight[2] = 1.f;
 
 	triangle.setPointCount (3);
 	triangle.setPoint (0, sf::Vector2f (radius, 0));
@@ -113,9 +116,9 @@ void Boid::flock (std::vector<Boid*>* const boids) {
 	sf::Vector2f ali = align (boids);			// Alignment
 	sf::Vector2f coh = cohesion (boids);		// Cohesion
 										// Arbitrarily weight these forces
-	sep *= 1.5f;
-	ali *= 1.0f;
-	coh *= 1.0f;
+	sep *= weight[0];
+	ali *= weight[1];
+	coh *= weight[2];
 	// Add the force vectors to acceleration
 	applyForce (sep);
 	applyForce (ali);
@@ -200,4 +203,3 @@ sf::Vector2f Boid::align (std::vector<Boid*>* const Boids) {
 		return sf::Vector2f (0, 0);
 	}
 }
-

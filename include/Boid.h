@@ -11,8 +11,9 @@ private:
 	float mMaxForce;    // Maximum steering force
 	float mMaxSpeed;    // Maximum speed
 	float mBoundaryWidth;
-	const int gameWidth = 800;
-	const int gameHeight = 600;
+	float weight [3];
+	const int gameWidth = 1280;
+	const int gameHeight = 720;
 public:
 	Boid (sf::Vector2f loc);
 	void update ();

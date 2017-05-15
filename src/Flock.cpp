@@ -2,6 +2,9 @@
 
 Flock::Flock () {
 	mCount = 0;
+	weight[0] = 1.5f;
+	weight[1] = 1.f;
+	weight[2] = 1.f;
 }
 
 Flock::~Flock () {
@@ -46,4 +49,8 @@ void Flock::draw (sf::RenderTarget& target, sf::RenderStates states) const {
 	for (auto p : mBoids) {
 		target.draw (*p, states);
 	}
+}
+
+std::array<float, 3> Flock::getWeight () {
+	return weight;
 }
