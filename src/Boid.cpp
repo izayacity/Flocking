@@ -22,11 +22,6 @@ Boid::Boid (sf::Vector2f loc) {
 	triangle.setPosition (mLocation);
 }
 
-void Boid::run (std::vector<Boid*>* const boids) {
-	flock (boids);
-	update ();
-}
-
 // Method to update location
 void Boid::update () {
 	boundaries ();

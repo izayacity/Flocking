@@ -25,7 +25,6 @@ public:
 	float getMaxSpeed ();
 	void setSpeed (float speed);
 	void boundaries ();
-	void run (std::vector<Boid*>* const boids);
 	void flock (std::vector<Boid*>* const boids);
 	sf::Vector2f separate (std::vector<Boid*>* const boids);
 	sf::Vector2f align (std::vector<Boid*>* const boids);

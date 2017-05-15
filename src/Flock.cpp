@@ -5,15 +5,30 @@ Flock::Flock () {
 	weight[0] = 1.5f;
 	weight[1] = 1.f;
 	weight[2] = 1.f;
+	gridWidth = gameWidth / COLUMNS;
+	gridHeight = gameHeight / ROWS;
 }
 
 Flock::~Flock () {
 	mBoids.clear ();
+	for (int i = 0; i < ROWS; i++)
+		for (int j = 0; j < COLUMNS; j++) {
+			grid[i][j].clear ();
+		}
 }
 
 void Flock::update () {
-	for (Boid *b : mBoids) {
-		b->run (&mBoids);
+	for (auto boid : mBoids) {
+		sf::Vector2i curBucket = getBucket (boid->getPosition());
+		boid->update ();
+		sf::Vector2i newBucket = getBucket (boid->getPosition ());
+		
+		if (curBucket != newBucket) {
+			bucketRemove (curBucket, boid);
+			bucketAdd (newBucket, boid);
+		}
+
+		boid->flock (&grid[newBucket.x][newBucket.y]);
 	}
 }
 
@@ -63,4 +78,21 @@ void Flock::updateWeight (int sep, int coh, int ali) {
 	for (auto boid : mBoids) {
 		boid->setWeight (weight[0], weight[1], weight[2]);
 	}
+}
+
+sf::Vector2i Flock::getBucket (sf::Vector2f pos) {
+	return sf::Vector2i (pos.x / gridWidth, pos.y / gridHeight);
+}
+
+// remove obj from grid[bucket.x][bucket.y]
+void Flock::bucketRemove (sf::Vector2i bucket, Boid* obj) {
+	auto i = std::find (grid[bucket.x][bucket.y].begin (), grid[bucket.x][bucket.y].end (), obj);
+	if (i != grid[bucket.x][bucket.y].end ()) {
+		grid[bucket.x][bucket.y].erase (i);
+	}
+}
+
+// add obj to grid[bucket.x][bucket.y]
+void Flock::bucketAdd (sf::Vector2i bucket, Boid* obj) {
+	grid[bucket.x][bucket.y].push_back (obj);
 }
