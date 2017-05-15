@@ -17,6 +17,16 @@ void Flock::update () {
 	}
 }
 
+// Apply the transform and draw the vertext array
+void Flock::draw (sf::RenderTarget& target, sf::RenderStates states) const {
+	states.transform *= getTransform ();
+	states.texture = NULL;
+
+	for (auto p : mBoids) {
+		target.draw (*p, states);
+	}
+}
+
 int Flock::getCount () {
 	return mCount;
 }
@@ -41,16 +51,16 @@ void Flock::reduceBoid () {
 	}
 }
 
-// Apply the transform and draw the vertext array
-void Flock::draw (sf::RenderTarget& target, sf::RenderStates states) const {
-	states.transform *= getTransform ();
-	states.texture = NULL;
-
-	for (auto p : mBoids) {
-		target.draw (*p, states);
-	}
-}
-
 std::array<float, 3> Flock::getWeight () {
 	return weight;
+}
+
+void Flock::updateWeight (int sep, int coh, int ali) {
+	weight[0] += 0.1 * sep;
+	weight[1] += 0.1 * coh;
+	weight[2] += 0.1 * ali;
+
+	for (auto boid : mBoids) {
+		boid->setWeight (weight[0], weight[1], weight[2]);
+	}
 }

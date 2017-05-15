@@ -30,4 +30,5 @@ public:
 	sf::Vector2f separate (std::vector<Boid*>* const boids);
 	sf::Vector2f align (std::vector<Boid*>* const boids);
 	sf::Vector2f cohesion (std::vector<Boid*>* const boids);
+	void setWeight (float sep, float coh, float ali);
 };

@@ -43,8 +43,8 @@ int main () {
 	// display key commands text
 	sf::Text keyText[2];
 	sf::String msg[2] = {
-		"Ctrl+C to add cohesion; Alt+C to reduce cohesion; Ctrl+A to add align; Alt+A to reduce align",
-		"RMouseBtn to add boids; Alt+T to reduce boids; Ctrl+S to add separation; Alt+S to reduce separation"
+		"Ctrl+C to add cohesion; Shift+C to reduce cohesion; Ctrl+A to add align; Shift+A to reduce align",
+		"RMouseBtn to add boids; Shift+T to reduce boids; Ctrl+S to add separation; Shift+S to reduce separation"
 	};
 	int text_position = 25;
 
@@ -60,9 +60,14 @@ int main () {
 	// create flocking boids
 	Flock boids;
 
+	// counters for command buffer
+	int sep = 0;
+	int coh = 0;
+	int ali = 0;
+
 	while (window.isOpen ()) {
 		sf::Event event;	
-		sf::Vector2i mouse = sf::Mouse::getPosition (window);
+		sf::Vector2i mouse = sf::Mouse::getPosition (window);		
 
 		while (window.pollEvent (event)) {
 			if (event.type == sf::Event::Closed ||
@@ -77,10 +82,44 @@ int main () {
 			}
 
 			else if (event.type == sf::Event::TextEntered) {
-				if (sf::Keyboard::isKeyPressed (sf::Keyboard::T) &&
-				(sf::Keyboard::isKeyPressed (sf::Keyboard::LAlt) ||
-				sf::Keyboard::isKeyPressed (sf::Keyboard::RAlt))) {
+				if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LShift) ||
+				sf::Keyboard::isKeyPressed (sf::Keyboard::RShift)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::T)) {
 					boids.reduceBoid ();
+				}
+
+				else if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LControl) ||
+					sf::Keyboard::isKeyPressed (sf::Keyboard::RControl)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::S)) {
+					sep++;  // add separation
+				}
+				
+				else if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LShift) ||
+					sf::Keyboard::isKeyPressed (sf::Keyboard::RShift)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::S)) {
+					sep--;  // reduce separation
+				}
+
+				else if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LControl) ||
+					sf::Keyboard::isKeyPressed (sf::Keyboard::RControl)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::C)) {
+					coh++; // add cohesion
+				}
+
+				else if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LShift) ||
+					sf::Keyboard::isKeyPressed (sf::Keyboard::RShift)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::C)) {
+					coh--;  // reduce cohesion
+				} else if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LControl) ||
+					sf::Keyboard::isKeyPressed (sf::Keyboard::RControl)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
+					ali++;  // add align
+				}
+
+				else if ((sf::Keyboard::isKeyPressed (sf::Keyboard::LShift) ||
+					sf::Keyboard::isKeyPressed (sf::Keyboard::RShift)) &&
+					sf::Keyboard::isKeyPressed (sf::Keyboard::A)) {
+					ali--;  // reduce align
 				}
 			}
 		}
@@ -98,7 +137,9 @@ int main () {
 		stream.str ("");
 
 		// update boids
+		boids.updateWeight (sep, coh, ali);
 		boids.update ();
+		sep = coh = ali = 0;
 
 		statsText.setString ("fps: " + std::to_string (static_cast<int>(1.f / clock.restart ().asSeconds ()))
 		+ "  total: " + std::to_string (boids.getCount ())

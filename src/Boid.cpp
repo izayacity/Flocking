@@ -17,7 +17,7 @@ Boid::Boid (sf::Vector2f loc) {
 	triangle.setPoint (0, sf::Vector2f (radius, 0));
 	triangle.setPoint (1, sf::Vector2f (radius * 0.5, radius * 1.866));
 	triangle.setPoint (2, sf::Vector2f (radius * 1.5, radius * 1.866));
-	triangle.setFillColor (sf::Color::Green);
+	triangle.setFillColor (sf::Color::Color (std::rand () % 255, std::rand () % 255, std::rand () % 255, 100));
 	triangle.setOrigin (radius, radius);
 	triangle.setPosition (mLocation);
 }
@@ -202,4 +202,10 @@ sf::Vector2f Boid::align (std::vector<Boid*>* const Boids) {
 	} else {
 		return sf::Vector2f (0, 0);
 	}
+}
+
+void Boid::setWeight (float sep, float coh, float ali) {
+	weight[0] = sep;
+	weight[1] = coh;
+	weight[2] = ali;
 }

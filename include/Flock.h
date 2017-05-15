@@ -15,4 +15,5 @@ public:
 	void reduceBoid ();
 	std::array<float, 3> getWeight ();
 	virtual void draw (sf::RenderTarget& target, sf::RenderStates states) const;
+	void updateWeight (int sep, int coh, int ali);
 };
