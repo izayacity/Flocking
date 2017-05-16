@@ -1,6 +1,5 @@
 #include "../include/Path.h"
 
-
 Path::Path () {
 	// Arbitrary radius of 40
 	mRadius = 40.0;
@@ -38,10 +37,10 @@ void Path::draw (sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void Path::setPath () {
-	mPoints.push_back (sf::Vector2f (640.f, 160.f));
-	mPoints.push_back (sf::Vector2f (940.f, 360.f));
-	mPoints.push_back (sf::Vector2f (640.f, 560.f));
-	mPoints.push_back (sf::Vector2f (340.f, 360.f));
+	mPoints.push_back (sf::Vector2f (640.f, 60.f));
+	mPoints.push_back (sf::Vector2f (1140.f, 360.f));
+	mPoints.push_back (sf::Vector2f (640.f, 660.f));
+	mPoints.push_back (sf::Vector2f (140.f, 360.f));
 	
 	for (unsigned int i = 0; i <= mPoints.size () - 2; i++) {
 		std::array<sf::Vertex, 2> line = {

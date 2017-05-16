@@ -17,9 +17,9 @@ private:
 	const int gameWidth = 1280;
 	const int gameHeight = 720;	
 public:
-	bool mDebug;
-	sf::Vertex predict_line[2];
-	sf::Vertex norm_line[2];
+	bool mDebug;  // TODO
+	sf::Vertex predict_line[2];  // TODO
+	sf::Vertex norm_line[2];     // TODO
 
 	Boid (sf::Vector2f loc);
 	void update ();

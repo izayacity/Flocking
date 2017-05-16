@@ -25,7 +25,7 @@ int main () {
 	int sep = 0;
 	int coh = 0;
 	int ali = 0;
-	bool path_drawn = true;
+	bool path_drawn = false;
 	sf::Vector2f pathStart;
 	sf::Vector2f pathEnd;
 
@@ -55,7 +55,7 @@ int main () {
 	// display key commands text
 	sf::Text keyText[2];
 	sf::String msg[2] = {
-		"Ctrl+C to add cohesion; Shift+C to reduce cohesion; Ctrl+A to add align; Shift+A to reduce align",
+		"Ctrl+C to add cohesion; Shift+C to reduce cohesion; Ctrl+A to add align; Shift+A to reduce align; P to toggle pathing",
 		"RMouseBtn to add boids; Shift+T to reduce boids; Ctrl+S to add separation; Shift+S to reduce separation"
 	};
 	int text_position = 25;
@@ -82,6 +82,13 @@ int main () {
 			else if (event.type == sf::Event::MouseButtonPressed) {				
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					boids.addBoid (sf::Vector2f (event.mouseButton.x, event.mouseButton.y));  // add boids
+				}
+			}
+
+			else if (event.type == sf::Event::KeyPressed) {
+				if (event.mouseButton.button == sf::Keyboard::P) {					
+					path_drawn = path_drawn ? false : true;  // toggle pathing
+					boids.isPath = path_drawn;
 				}
 			}
 
@@ -140,7 +147,7 @@ int main () {
 		std::string alignStr = stream.str ();
 		stream.str ("");
 
-		// update boids
+		// update boids		
 		boids.updateWeight (sep, coh, ali);
 		boids.update ();
 		sep = coh = ali = 0;
