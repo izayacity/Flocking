@@ -34,3 +34,18 @@ float NewVector::rotation (sf::Vector2f vec) {
 		}
 	}
 }
+
+float NewVector::dot (sf::Vector2f vec1, sf::Vector2f vec2) {
+	return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
+// A function to get the normal point from a point (p) to a line segment (a-b)
+// This function could be optimized to make fewer new Vector objects
+sf::Vector2f NewVector::getNormalPoint (sf::Vector2f p, sf::Vector2f a, sf::Vector2f b) {	
+	sf::Vector2f ab = b - a;  // Vector from a to b
+	ab = ab / std::sqrt (ab.x * ab.x + ab.y * ab.y);
+
+	// Project vector "diff" onto line by using the dot product
+	ab *= dot (p - a, ab);
+	return a + ab;
+}

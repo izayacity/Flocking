@@ -23,4 +23,6 @@ public:
 	void limit (sf::Vector2f &vec, float limit);
 	float lmap (float val, sf::Vector2f min, sf::Vector2f max);
 	float rotation (sf::Vector2f vec);
+	float dot (sf::Vector2f vec1, sf::Vector2f vec2);
+	sf::Vector2f getNormalPoint (sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
 };

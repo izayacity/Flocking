@@ -7,6 +7,8 @@ Flock::Flock () {
 	weight[2] = 1.f;
 	gridWidth = gameWidth / COLUMNS;
 	gridHeight = gameHeight / ROWS;
+	isPath = true;
+	path.setPath ();
 }
 
 Flock::~Flock () {
@@ -28,7 +30,11 @@ void Flock::update () {
 			bucketAdd (newBucket, boid);
 		}
 
-		boid->flock (&grid[newBucket.x][newBucket.y]);
+		if (isPath) {
+			boid->applyForce (boid->follow (&path));
+		}
+		
+		//boid->flock (&grid[newBucket.x][newBucket.y]);
 	}
 }
 

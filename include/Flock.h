@@ -15,6 +15,9 @@ class Flock : public sf::Drawable, public sf::Transformable {
 	int mCount;
 	std::array<float, 3> weight;
 public:
+	bool isPath;
+	Path path;  // could not use pointer which has read access bug
+
 	Flock ();
 	~Flock ();
 	int getCount ();

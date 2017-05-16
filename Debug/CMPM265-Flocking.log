@@ -1,9 +1,17 @@
 ﻿  Flock.cpp
-d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(74): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(75): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(76): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(84): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(80): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(81): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(82): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\flock.cpp(90): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Boid.cpp
+d:\_repos\cmpm265\cmpm265-flocking\include\newvector.h(14): warning C4305: 'initializing': truncation from 'double' to 'const float'
+d:\_repos\cmpm265\cmpm265-flocking\src\boid.cpp(6): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\boid.cpp(10): warning C4305: '=': truncation from 'double' to 'float'
+d:\_repos\cmpm265\cmpm265-flocking\src\boid.cpp(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\boid.cpp(20): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+d:\_repos\cmpm265\cmpm265-flocking\src\boid.cpp(217): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
+d:\_repos\cmpm265\cmpm265-flocking\src\boid.cpp(302): warning C4715: 'Boid::follow': not all control paths return a value
   Skipping... (no relevant changes detected)
   main.cpp
   CMPM265-Flocking.vcxproj -> D:\_repos\CMPM265\CMPM265-Flocking\Debug\CMPM265-Flocking.exe

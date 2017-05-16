@@ -12,6 +12,7 @@ Boid::Boid (sf::Vector2f loc) {
 	weight[0] = 1.5f;
 	weight[1] = 1.f;
 	weight[2] = 1.f;
+	mDebug = true;
 
 	triangle.setPointCount (3);
 	triangle.setPoint (0, sf::Vector2f (radius, 0));
@@ -31,46 +32,6 @@ void Boid::update () {
 	mAcceleration = sf::Vector2f (0, 0);
 	triangle.setPosition (mLocation);
 	triangle.setRotation (NewVector::getInstance ().rotation (mVelocity));
-}
-
-void Boid::setSpeed (float speed) {
-	mMaxSpeed = speed;
-}
-
-sf::Vector2f Boid::getPosition () {
-	return mLocation;
-}
-
-sf::Vector2f Boid::getVelocity () {
-	return mVelocity;
-}
-
-float Boid::getMaxSpeed () {
-	return mMaxForce;
-}
-
-void Boid::applyForce (sf::Vector2f force) {	
-	mAcceleration += force;  // We could add mass here if we want A = F / M
-}
-
-// A method that calculates a steering force towards a target
-sf::Vector2f Boid::arrive (sf::Vector2f target) {
-	sf::Vector2f desired = target - mLocation;  // A vector pointing from the location to the target
-	float distanceX = NewVector::getInstance ().mag (desired);
-	desired = NewVector::getInstance ().norm (desired);
-
-	// Scale with arbitrary damping within 100 pixels
-	if (distanceX < 100.0) {
-		desired *= NewVector::getInstance ().lmap (distanceX, sf::Vector2f (0, 0), sf::Vector2f (100.f, mMaxSpeed));
-	} else {
-		desired *= mMaxSpeed;
-	}
-
-	// Steering = Desired minus velocity
-	sf::Vector2f steer = desired - mVelocity;
-	NewVector::getInstance ().limit (steer, mMaxForce);  // Limit to maximum steering force
-	
-	return steer;
 }
 
 // calculate velocity and bound back when hitting the edge of the screen
@@ -98,13 +59,6 @@ void Boid::boundaries () {
 	}
 }
 
-// render on screen
-void Boid::draw (sf::RenderTarget& target, sf::RenderStates states) const {
-	states.transform *= getTransform ();
-	states.texture = NULL;
-	target.draw (triangle, states);
-}
-
 // We accumulate a new acceleration each time based on three rules
 void Boid::flock (std::vector<Boid*>* const boids) {
 	sf::Vector2f sep = separate (boids);		// Separation
@@ -118,6 +72,46 @@ void Boid::flock (std::vector<Boid*>* const boids) {
 	applyForce (sep);
 	applyForce (ali);
 	applyForce (coh);
+}
+
+void Boid::setSpeed (float speed) {
+	mMaxSpeed = speed;
+}
+
+sf::Vector2f Boid::getPosition () {
+	return mLocation;
+}
+
+sf::Vector2f Boid::getVelocity () {
+	return mVelocity;
+}
+
+float Boid::getMaxSpeed () {
+	return mMaxForce;
+}
+
+void Boid::applyForce (sf::Vector2f force) {
+	mAcceleration += force;  // We could add mass here if we want A = F / M
+}
+
+// A method that calculates a steering force towards a target
+sf::Vector2f Boid::arrive (sf::Vector2f target) {
+	sf::Vector2f desired = target - mLocation;  // A vector pointing from the location to the target
+	float distanceX = NewVector::getInstance ().mag (desired);
+	desired = NewVector::getInstance ().norm (desired);
+
+	// Scale with arbitrary damping within 100 pixels
+	if (distanceX < 100.0) {
+		desired *= NewVector::getInstance ().lmap (distanceX, sf::Vector2f (0, 0), sf::Vector2f (100.f, mMaxSpeed));
+	} else {
+		desired *= mMaxSpeed;
+	}
+
+	// Steering = Desired minus velocity
+	sf::Vector2f steer = desired - mVelocity;
+	NewVector::getInstance ().limit (steer, mMaxForce);  // Limit to maximum steering force
+
+	return steer;
 }
 
 // Separation: Method checks for nearby Boids and steers away
@@ -203,4 +197,118 @@ void Boid::setWeight (float sep, float coh, float ali) {
 	weight[0] = sep;
 	weight[1] = coh;
 	weight[2] = ali;
+}
+
+// http://www.red3d.com/cwr/steer/PathFollow.html
+sf::Vector2f Boid::follow (Path* const path) {
+	// Predict location 25 (arbitrary choice) frames ahead
+	sf::Vector2f predict = sf::Vector2f (mVelocity);
+	predict = NewVector::getInstance ().norm (predict);
+	predict *= 25.f;
+	sf::Vector2f predictLoc = mLocation + predict;	
+
+	// Now we must find the normal to the path from the predicted location
+	// We look at the normal for each line segment and pick out the closest one
+	sf::Vector2f normal;
+	sf::Vector2f target;
+	float worldRecord = 1000000.0;  // Start with a very high record distance that can easily be beaten
+
+	// Loop through all points of the path
+	for (int i = 0; i < path->mPoints.size () - 1; i++) {
+		// Look at a line segment and get the normal point to that line
+		sf::Vector2f a = path->mPoints[i];
+		sf::Vector2f b = path->mPoints[i + 1];
+		sf::Vector2f normalPoint = NewVector::getInstance ().getNormalPoint (predictLoc, a, b);
+
+		// This only works because we know our path goes from left to right
+		// We could have a more sophisticated test to tell if the point is in the line segment or not
+		if (normalPoint.x < a.x || normalPoint.x > b.x) {
+			// This is something of a hacky solution, but if it's not within the line segment
+			// consider the normal to just be the end of the line segment (point b)
+			normalPoint = b;
+		}
+
+		// How far away are we from the path?
+		float distance = NewVector::getInstance ().mag (predictLoc - normalPoint);
+
+		// find the closest line segment for distance
+		if (distance < worldRecord) {
+			worldRecord = distance;
+			// If so the target we want to steer towards is the normal
+			normal = normalPoint;
+
+			// Look at the direction of the line segment so we can seek a little bit ahead of the normal
+			sf::Vector2f dir = b - a;
+			dir = NewVector::getInstance ().norm (dir);
+			// This is an oversimplification
+			// Should be based on distance to path & velocity
+			dir *= 10.f;
+			target = normalPoint;
+			target += dir;
+		}
+	}
+
+	// check the last gap
+	sf::Vector2f a = path->mPoints[path->mPoints.size () - 1];
+	sf::Vector2f b = path->mPoints[0];
+	sf::Vector2f normalPoint = NewVector::getInstance ().getNormalPoint (predictLoc, a, b);
+
+	// This only works because we know our path goes from left to right
+	// We could have a more sophisticated test to tell if the point is in the line segment or not
+	if (normalPoint.x < a.x || normalPoint.x > b.x) {
+		// This is something of a hacky solution, but if it's not within the line segment
+		// consider the normal to just be the end of the line segment (point b)
+		normalPoint = b;
+	}
+
+	// How far away are we from the path?
+	float distance = NewVector::getInstance ().mag (predictLoc - normalPoint);
+
+	// find the closest line segment for distance
+	if (distance < worldRecord) {
+		worldRecord = distance;
+		// If so the target we want to steer towards is the normal
+		normal = normalPoint;
+
+		// Look at the direction of the line segment so we can seek a little bit ahead of the normal
+		sf::Vector2f dir = b - a;
+		dir = NewVector::getInstance ().norm (dir);
+		// This is an oversimplification
+		// Should be based on distance to path & velocity
+		dir *= 10.f;
+		target = normalPoint;
+		target += dir;
+	}
+
+	// Only if the distance is greater than the path's radius do we bother to steer
+	if (worldRecord > path->mRadius) {
+		return arrive (target);
+	}
+
+	// Draw the debugging stuff
+	//if (mDebug) {
+	//	// Draw predicted future location
+	//	predict_line[2] = {
+	//		mLocation,
+	//		predictLoc
+	//	};
+
+	//	// Draw normal location
+	//	norm_line[2] = {
+	//		predictLoc,
+	//		normal
+	//	};
+	//}
+}
+
+// render on screen
+void Boid::draw (sf::RenderTarget& target, sf::RenderStates states) const {
+	states.transform *= getTransform ();
+	states.texture = NULL;
+	target.draw (triangle, states);
+
+	/*if (mDebug) {
+		target.draw (predict_line, 2, sf::Lines, states);
+		target.draw (norm_line, 2, sf::Lines, states);
+	}*/
 }

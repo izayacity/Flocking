@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "../include/Flock.h"
 #include "../include/NewVector.h"
-#include <iostream>
 #include <cassert>
 #include <sstream>
 #include <array>
@@ -16,6 +15,19 @@ int main () {
 	settings.antialiasingLevel = 8;
 	sf::RenderWindow window (sf::VideoMode (gameWidth, gameHeight), "Flocking", sf::Style::Default, settings);
 	sf::Clock clock;
+
+	// create flocking boids
+	Flock boids;
+	Path path;
+	path.setPath ();
+
+	// counters for command buffer
+	int sep = 0;
+	int coh = 0;
+	int ali = 0;
+	bool path_drawn = true;
+	sf::Vector2f pathStart;
+	sf::Vector2f pathEnd;
 
 	// load fonts
 	sf::Font fontHNL;
@@ -55,15 +67,7 @@ int main () {
 		keyText[i].setFillColor (sf::Color::Blue);
 		keyText[i].setPosition (5, gameHeight - text_position);
 		text_position += 30;
-	}
-
-	// create flocking boids
-	Flock boids;
-
-	// counters for command buffer
-	int sep = 0;
-	int coh = 0;
-	int ali = 0;
+	}	
 
 	while (window.isOpen ()) {
 		sf::Event event;	
@@ -75,9 +79,9 @@ int main () {
 				window.close ();
 			}
 			
-			else if (event.type == sf::Event::MouseButtonPressed) {
+			else if (event.type == sf::Event::MouseButtonPressed) {				
 				if (event.mouseButton.button == sf::Mouse::Right) {
-					boids.addBoid (sf::Vector2f (event.mouseButton.x, event.mouseButton.y));
+					boids.addBoid (sf::Vector2f (event.mouseButton.x, event.mouseButton.y));  // add boids
 				}
 			}
 
@@ -146,13 +150,20 @@ int main () {
 		+ "  separation: " + seperationStr + "  cohesion: " + cohesionStr + "  align: " + alignStr);		
 
 		window.clear ();
+
+		if (path_drawn) {
+			window.draw (path);
+		}
+
 		window.draw (boids);
 		window.draw (statsField);
 		window.draw (statsText);
 		window.draw (keyField);
+
 		for (auto text : keyText) {
 			window.draw (text);
 		}
+
 		window.display ();
 	}
 

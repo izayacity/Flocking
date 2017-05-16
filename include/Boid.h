@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Path.h"
+#include <iostream>
 
 class Boid : public sf::Drawable, public sf::Transformable {
 private:
@@ -13,8 +15,12 @@ private:
 	float mBoundaryWidth;
 	float weight [3];
 	const int gameWidth = 1280;
-	const int gameHeight = 720;
+	const int gameHeight = 720;	
 public:
+	bool mDebug;
+	sf::Vertex predict_line[2];
+	sf::Vertex norm_line[2];
+
 	Boid (sf::Vector2f loc);
 	void update ();
 	void applyForce (sf::Vector2f force);
@@ -30,4 +36,5 @@ public:
 	sf::Vector2f align (std::vector<Boid*>* const boids);
 	sf::Vector2f cohesion (std::vector<Boid*>* const boids);
 	void setWeight (float sep, float coh, float ali);
+	sf::Vector2f follow (Path* const path);
 };

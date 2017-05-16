@@ -152,6 +152,7 @@
     <ClCompile Include="src\NewVector.cpp" />
     <ClCompile Include="src\Boid.cpp" />
     <ClCompile Include="src\Flock.cpp" />
+    <ClCompile Include="src\Path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="static\font\HelveticaNeue Light.ttf" />
@@ -160,6 +161,7 @@
     <ClInclude Include="include\NewVector.h" />
     <ClInclude Include="include\Boid.h" />
     <ClInclude Include="include\Flock.h" />
+    <ClInclude Include="include\Path.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
