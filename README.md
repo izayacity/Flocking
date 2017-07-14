@@ -1,7 +1,7 @@
 # Flocking
 Flocking written in C++ using SFML. Check out Youtube demo at [https://youtu.be/xtSEIrXISDw](https://youtu.be/xtSEIrXISDw).    
-<img src="/screenshot.PNG">  
-
+<img src="/1.JPG">  
+<img src="/2.JPG">  
 ### Control:
 
 RMouseBtn:	add boids;
