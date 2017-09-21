@@ -1,3 +1,9 @@
+/* 
+This is flocking AI behavior using bin-lattice spacial partition for optimization which can allow 350 boids 
+running at around 90fps if the pathing is turned off. Without doing this, the executable program would 
+be stuck with around 100 boids running with flocking AI calculations. The performance could be further improved by
+BTS or BVH.
+*/
 #include "../include/Flock.h"
 
 Flock::Flock () {
